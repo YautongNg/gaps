@@ -1,0 +1,41 @@
+% File ISAO.ppp
+% =============
+%
+% IGS Satellite Antenna Offsets
+% -   -         -       -
+%
+%       This file contains the list of satellite antenna offsets used by 
+%       IGS
+% 
+%       BLK -> Block of the satellite
+%              Block Codes:
+%                           1- I
+%                           2- II
+%                           3- IIA
+%                           4- IIR
+%                           5- IIR-M
+%       OX -> Offset in X (m)*
+%       OY -> Offset in Y (m)*
+%       OZ -> Offset in Z (m)*
+%       (*) Satellite body coordinate system
+%
+% Created/Updated
+% ===============
+%
+% When              Who                     What
+% ----              ---                     ----
+% 2006/06/08        Rodrigo Leandro         File created
+%
+% ==============================
+% Copyright 2006 Rodrigo Leandro
+% ==============================
+
+%===================================
+%   BLK     OX      OY      OZ
+%===================================
+    01      0.000   0.000   0.000
+    02      0.279   0.000   1.023
+    03      0.279   0.000   1.023
+    04      0.000   0.000   0.000
+    05      0.000   0.000   0.000
+%===================================

@@ -1,0 +1,58 @@
+\documentclass{report}
+
+
+\begin{document}
+\title{Specification Document - GAPS}
+\author{Joey Bernard}
+\date{June 8 2012}
+\maketitle
+
+\tableofcontents
+
+
+\chapter{Introduction}
+\par The GAPS website provides a service to the greater GGE community. It is lacking in some functionality that is needed, now that the service has become a necessity. This document will specify the required behavior of the GAPS website and the calculations performed on behalf of users. It will also detail user accounting and access control of the service.
+
+
+\chapter{Website Format}
+\par The website will be re-formatted to match the look and feel of the current incarnation of the UNB-VMF1 website. The design there is already handled through CSS, and so the design will simply be copied over to the new GAPS site. All style elements will be kept the same, in order to maintain the same look and feel.
+
+
+\chapter{Website Form Data Validation}
+\par There are several sections of the website form where data provided by the user needs to be validated, ensuring that it is in the correct ranges.
+\section{form1}
+
+
+\chapter{File Upload Validation}
+\par The user provides RINEX files that are used during processing stage. These need to have basic validation to ensure that they obey filenaming conventions, and that they are valid RINEX files. The website also needs to be able to handle bulk loading of up to 5 files for processing, all using the same parameters.
+\par Also, the user can optionally provide an Ocean Tidal Loading (OTL) file to use in the calculation. If this file is not provided, then a system file is used instead.
+
+\section{RINEX File Validation}
+\par The RINEX file that is uploaded by the user needs to follow a fixed naming convention. All filenames need to follow the format
+\par Test
+
+\section{RINEX File Size}
+\par The maximum size allowed for an uploaded RINEX file is 20MB. The PHP form validation step will enforce this and pop up an error message to the user if this is exceeded. \textbf{The PHP ini file needs to be edited so that the PHP engine will allow file uploads of this size.} If not, the file upload will fail at the PHP level and the user may not see any useful error messages. This check can only be done after the file has been uploaded, so if it exceeds the maximum size, the file will be deleted and an appropriate error message will be presented to the user. This message will be
+\begin{verbatim}The file you attemtped to upload was larger than the allowed 20MB.\end{verbatim}
+The error message page will contain a button that will take the user back to the original data entry page, along with all of their original entries.
+
+\section{RINEX validation}
+\par There needs to be some basic file validation to try and ensure that the file being uploaded is actually a valid RINEX file. The only test will be to see if there is a tag in the file identifying the RINEX version. If there is, this will also be checked to verify that it is either version 2.10 or 2.11. Anything else will result in one of two possible error messages. If the RINEX tag is not found, then the error message will be
+\begin{verbatim}The file you attempted to upload does not appear to be a valid RINEX file.\end{verbatim}
+If the RINEX tag is there, but the version is not 2.10 or 2.11, then the error message will be
+\begin{verbatim}This RINEX file is not the correct version. GAPS can only process RINEX 2.10 or RINEX 2.11 files.\end{verbatim}
+
+\section{OTL File Size}
+\par 
+
+
+\chapter{User Accounts}
+
+
+\chapter{GAPS Processing}
+
+
+\chapter{Results Management}
+
+
+\end{document}

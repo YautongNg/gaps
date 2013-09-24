@@ -1,0 +1,430 @@
+file: p1c1bias.hist
++cc2noncc/info
+*============================================================================
+
+This file contains the history of average <P1-C1> biases values recommended
+by the IGS for its Analysis Centers and for users of IGS products,
+particularly those who use IGS clock products with a mix of receiver types
+and where strict internal consistency is desired.  For now, only GPS biases
+are recognized (no GLONASS or other future GNSS systems).
+
+For more complete background please refer to IGS Mail #2744 (15 Mar 2000)
+and IGS Mail #2320 (24 Jun 1999).
+
+The (C1,P2') pair available from cross-correlation style receivers (e.g.,
+AOA TurboRogue and Trimble 4000) have satellite-dependent biases compared
+with the (P1,P2) observables provided by newer generation receivers (e.g.,
+Ashtech Z-XII, AOA Benchmark/ACT, etc).  To avoid mixing data with different
+satellite biases, which would degrade the IGS satellite clock products,
+the IGS Analysis Centers have agreed to adopt a common pseudorange bias
+convention by modifying data from the older receivers to be compatible with
+the newer generation observables.
+
+Specifically, this involves transforming data from cross-correlation style
+receivers by:
+   C1  -->  C1 + f(i)      [becomes compatible with modern P1]
+   P2' -->  P2'+ f(i)      [becomes compatible with modern P2]
+where f(i) are empirically-determined long-term average bias values
+<P1 - C1>i for satellites PRNi.  This transformation accounts for the
+different satellite-based biases between cross-correlation pseudorange
+observables (C1, P2') and the observables (P1, P2) reported by modern
+Y-codeless receivers.  In this way, a mixed network of receiver types can
+be used together consistently.
+
+In addition a few models of non-cross-correlator receivers (e.g., Leica
+CRS1000) report C1 rather than P1.  For these  only C1 is replaced by  
+   C1  -->  C1 + f(i)      [becomes compatible with modern P1]
+and the P2 observable is left unchanged.
+
+The <P1-C1> biases vary from satellite to satellite but tend to be
+relatively constant for long periods of time.  Note that since the biases
+change from satelite to satellite, they will not be eliminated by double
+differencing.
+
+A converter utility (cc2noncc.f) is available for analysts to use to
+transform AOA TurboRogue, AOA ICS-4000Z, Trimble 4000, and similar RINEX
+files.  An output file will be created only when an input RINEX file
+indicates that the receiver type is one of these types, so it is vital
+that the RINEX headers be reliable.  Note that this conversion should only
+be applied to create intermediate files for analysis purposes and should
+never be used for general distribution of RINEX files!
+
+The cc2noncc utility can be invoked by:
+   cc2noncc <infile> <outfile> [biasfile] [type]
+where
+   <infile>      Input RINEX file name (required)
+   <outfile>     Output RINEX file name (required)
+   [biasfile]    this file of historic P1-C1 values (optional)
+   [type]        force corrections to be applied for these two
+                 types:  (optional but [biasfile] must be given)
+                   C1P2  = C1 and P2 both are to be changed
+                   C1    = only C1 is to be changed
+
+Only the most recent P1-C1 bias values are used when [biasfile] is not
+provided.  By supplying the external bias file, the appropriate bias values
+for any epoch in the past may be used, not just the most recent set which
+is the default.  When run with no runstring parameters, help info is
+returned.
+
+*============================================================================
+-cc2noncc/info
++cc2noncc/rcvr
+*============================================================================
+*
+* Listed below are the receiver types that are recognized by cc2noncc and
+* for which observables will be modified.  The receiver type is read from
+* the the RINEX headers and so must be reliable (unless the forcing option
+* is exercised in the runstring parameters).  Comment lines start with
+* non-blank characters.
+* 
+* Cross-correlation style receivers (both C1 and P2' are modified):
+ cc2noncc-type:C1P2
+ AOA ICS-4000Z
+ ROGUE SNR-
+ ROGUE SNR-12
+ ROGUE SNR-12 RM
+ ROGUE SNR-8
+ ROGUE SNR-800
+ ROGUE SNR-8000
+ ROGUE SNR-8100
+ ROGUE SNR-8C
+ TOPCON GP-DX1
+ TRIMBLE 4000
+ TRIMBLE 4000SSE
+ TRIMBLE 4000SSI
+ TRIMBLE 4000SST
+* 
+* Non-cross-correlator receivers reporting C1 instead of P1 (only C1 is
+* modified):
+ cc2noncc-type:C1
+ LEICA CRS1000
+ LEICA GRX1200
+ LEICA GRX1200GGPRO
+ LEICA GRX1200PRO
+ LEICA RS500
+ LEICA SR520
+ LEICA SR530
+ LEICA SR9500
+ LEICA SR9600
+ NOV EURO4-1.00-222
+ NOV MILLEN-RT2
+ NOV MILLEN-STD
+ NOV MILLEN-STDW
+ NOV OEMV3
+ NOV WAASGII
+ TRIMBLE 4700
+ TRIMBLE 5700
+ TRIMBLE MS750
+ TRIMBLE NETR5
+ TRIMBLE NETRS
+* 
+*============================================================================
+-cc2noncc/rcvr
++cc2noncc/corr
+*
+* Below is the history of f(i) = <P1 - C1>i bias values adopted by the IGS.
+* Note that the format is the same as the data statements in cc2noncc.f
+* except that epoch lines are added ( h YYYY MM DD).  Bias values for 40
+* satellites are expected; missing values are flagged as -9.999d9.  Comment
+* lines start with non-blank characters.
+*
+* <P1-C1> biases are always in units of ns and are listed in PRN order from
+* PNR01 thru PRN40.
+*
+*----------------------------------------------------------------------------
+* For data collected before 02 April 2000 -- no biases established
+*
+* During the period from June 1999 till April 2000, data from the relatively
+* small number of non-cross-correlating receivers were converted to CC-style
+* using the utility noncc2cc.
+* 
+ h 1980 01 01
+      data bias / -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+*
+*----------------------------------------------------------------------------
+* For data collected starting 02 April 2000 -- IGS Mail #2744 (15 Mar 2000)
+* (cc2noncc.f version 1.3, 09 Mar 2000 -- original units converted from
+* meters to ns)
+* 
+ h 2000 04 02
+      data bias / -0.223d0, -1.027d0,  0.173d0,  1.528d0, -0.650d0,
+     +             0.574d0, -0.987d0, -0.801d0,  0.390d0, -1.551d0,
+     +            -0.117d0, -9.999d9,  1.755d0,  0.574d0, -0.991d0,
+     +            -0.674d0, -0.887d0,  0.173d0,  0.233d0, -9.999d9,
+     +            -0.280d0, -1.564d0, -0.490d0,  0.440d0,  0.807d0,
+     +             1.444d0, -0.023d0, -9.999d9,  0.987d0,  1.805d0,
+     +            -0.610d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+* 
+* These values were determined by Ron Muellerschoen (JPL) based on 8 days
+* of 1-s data from 14 Ashtech Z12 receivers kept in stable conditions.
+* The raw data were collected between 3-Jan-2000 16:00 and 11-Jan-2000
+* 21:00.  These biases have been renormalized to zero mean across the
+* constellation in order to leave the net receiver clock bias unchanged
+* for the older receiver types.
+*
+*----------------------------------------------------------------------------
+* For data collected starting 18 June 2000 -- IGS Mail #2879 (09 Jun 2000)
+* (cc2noncc.f version 1.4, 08 Jun 2000 -- original units converted from
+* meters to ns)
+* 
+ h 2000 06 18
+      data bias / -0.254d0, -0.871d0,  0.247d0,  1.695d0, -0.580d0,
+     +             0.697d0, -0.907d0, -0.524d0,  0.414d0, -1.548d0,
+     +            -0.037d0, -9.999d9,  1.831d0, -9.999d9, -1.054d0,
+     +            -0.617d0, -0.761d0,  0.277d0,  0.270d0, -0.854d0,
+     +            -0.457d0, -1.501d0, -0.494d0,  0.600d0,  0.687d0,
+     +             1.544d0,  0.013d0, -9.999d9,  0.937d0,  1.868d0,
+     +            -0.624d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+* 
+* These values were determined by David Jefferson (JPL) based on Ashtech Z12
+* data only (e-mail on 08 June 2000).  The data were collected after the
+* launch of PRN20/SVN51, which has been added, and the decommissioning of
+* PRN14, which has been dropped.  These biases have been renormalized to
+* zero mean across the constellation in order to leave the net receiver
+* clock bias unchanged for the older receiver types.
+*
+*----------------------------------------------------------------------------
+* For data collected starting 14 January 2001 -- IGS Mail #3160 (05 Jan 2001)
+* (cc2noncc.f version 2.0, 04 Jan 2001)
+* 
+ h 2001 01 14
+      data bias /  0.222d0, -0.546d0,  0.042d0,  1.294d0, -0.798d0,
+     +             0.625d0, -0.523d0, -0.193d0,  0.048d0, -1.002d0,
+     +            -0.329d0, -9.999d9,  1.545d0, -0.409d0, -0.755d0,
+     +            -9.999d9, -0.522d0, -9.999d9,  0.582d0, -0.958d0,
+     +            -0.172d0, -1.374d0, -1.018d0,  0.459d0,  0.775d0,
+     +             1.077d0,  0.213d0, -0.144d0,  0.611d0,  1.745d0,
+     +            -0.496d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+* 
+* This set of biases was determined by Stefan Schaer (AIUB) as a byproduct
+* of his ionosphere monitoring.  They are direct estimates from a mixed
+* network of cross-correlation style and non-cross-correlation receivers;
+* see IGS Mail #2827 (09 May 2000) and the web site at
+* http://www.aiub.unibe.ch/ionosphere.html .
+* These values are a 7-day moving average of the daily estimates.  The
+* particular set used here were those posted on 26 Dec 2000.
+* Note that new satellites PRN28 (Aug 2000) and PRN14 (Dec 2000) have been
+* added and that PRN16 (Jul 2000) and PRN18 (Jun 2000) were decommissioned.
+*
+*----------------------------------------------------------------------------
+* For data collected starting 18 March 2001 -- IGS Mail #3220 (05 Mar 2001)
+* (cc2noncc.f version 2.1, 05 Mar 2001)
+* 
+ h 2001 03 18
+      data bias /  0.039d0, -0.469d0,  0.104d0,  1.655d0, -0.634d0,
+     +             0.681d0, -0.192d0, -0.309d0,  0.317d0, -1.003d0,
+     +            -0.161d0, -9.999d9,  1.376d0, -0.391d0, -0.238d0,
+     +            -9.999d9, -0.695d0, -0.242d0,  0.541d0, -1.114d0,
+     +            -0.176d0, -1.664d0, -1.033d0,  0.708d0,  0.373d0,
+     +             1.022d0,  0.123d0, -0.323d0,  0.511d0,  1.621d0,
+     +            -0.426d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+* 
+* This set of biases was determined by Stefan Schaer (AIUB) as a byproduct
+* of his ionosphere monitoring; see above.  These values are the monthly
+* averages of the daily estimates for February 2001 posted on 05 March 2001.
+* Note that new satellite PRN18 has been added.
+*
+*----------------------------------------------------------------------------
+* For data collected starting 20 January 2002 -- IGS Mail #3674 (08 Jan 2002)
+* (cc2noncc.f version 2.4, 02 Jan 2002)
+* 
+ h 2002 01 20
+      data bias /  0.377d0, -0.611d0,  0.343d0,  1.109d0, -0.738d0,
+     +             0.329d0, -0.557d0, -0.061d0,  0.172d0, -1.226d0,
+     +             0.229d0, -9.999d9,  1.519d0, -0.279d0, -0.751d0,
+     +            -9.999d9, -0.722d0, -0.666d0, -9.999d9, -0.953d0,
+     +            -0.088d0, -0.626d0, -1.308d0,  0.167d0,  0.791d0,
+     +             0.888d0,  0.367d0, -0.217d0,  0.760d0,  2.015d0,
+     +            -0.261d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+* 
+* This set of biases was determined by Stefan Schaer (AIUB) as a byproduct
+* of his ionosphere monitoring; see above.  These values are the monthly
+* averages of the daily estimates for November 2001 posted on 05 December
+* 2001.  Note that PRN19 was decommissioned on 11 Sept 2001.
+*
+*----------------------------------------------------------------------------
+* For data collected starting 02 March 2003 -- IGS Mail #4279 (26 Feb 2003)
+* (cc2noncc.f version 4.0, 26 Feb 2003)
+*
+ h 2003 03 02
+      data bias / -0.067d0, -0.944d0,  0.106d0,  1.508d0, -0.802d0,
+     +             0.645d0, -0.916d0, -0.514d0,  0.380d0, -1.480d0,
+     +             0.692d0, -9.999d9,  1.503d0,  0.289d0, -0.830d0,
+     +            -0.561d0, -0.595d0,  0.084d0, -9.999d9, -1.084d0,
+     +            -9.999d9, -1.609d0, -0.740d0,  0.347d0,  0.720d0,
+     +             1.223d0, -0.023d0, -0.113d0,  0.867d0,  2.211d0,
+     +            -0.296d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+* 
+* This set of biases was determined by Stefan Schaer (AIUB) as a byproduct
+* of his ionosphere monitoring; see above.  These values are the 30-day
+* averages of the daily estimates for the period ending 21 Feb 2003
+* (retrieved 26 Feb 2003).  Note the constellation has changed with the
+* addition of PRN16 and the decommissioning of PRN21.
+*----------------------------------------------------------------------------
+* For data collected starting 18 May 2003 -- IGS Mail #4366 (06 May 2003)
+* (cc2noncc.f version 4.3, 05 May 2003)
+*
+ h 2003 05 18
+      data bias / -0.107d0, -1.062d0,  0.149d0,  1.535d0, -0.890d0,
+     +             0.596d0, -0.618d0, -0.513d0,  0.320d0, -1.658d0,
+     +             0.755d0, -9.999d9,  1.559d0,  0.427d0, -0.947d0,
+     +            -0.285d0, -0.858d0,  0.085d0, -9.999d9, -1.019d0,
+     +            -0.267d0, -1.422d0, -0.745d0,  0.345d0,  0.611d0,
+     +             1.322d0,  0.005d0, -0.096d0,  0.956d0,  2.065d0,
+     +            -0.244d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+*
+* This set of biases was determined by Stefan Schaer (AIUB) as a byproduct
+* of his ionosphere monitoring; see above.  These values are the monthly
+* averages of the daily estimates for April 2003 (generated 04 May 2003).
+* Note that since the last update the constellation has changed with the
+* addition of a new PRN21.  Also, values have changed significantly for
+* PRN07, PRN10, PRN16 (new last update), PRN17, and PRN22.
+*----------------------------------------------------------------------------
+* For data collected starting 04 Feb 2004 -- IGS Mail #4825 (04 Feb 2004)
+* (cc2noncc.f version 4.5, 04 Feb 2004)
+*
+ h 2004 02 04
+      data bias / -0.052d0, -1.096d0,  0.015d0,  1.383d0, -0.821d0,
+     +             0.607d0, -0.942d0, -0.603d0,  0.392d0, -1.400d0,
+     +             0.487d0, -9.999d9,  1.435d0,  0.180d0, -0.926d0,
+     +            -0.517d0, -0.811d0, -0.066d0, -9.999d9, -1.109d0,
+     +            -0.437d0,  0.374d0, -0.426d0,  0.337d0,  0.569d0,
+     +             1.293d0, -0.062d0, -0.276d0,  0.785d0,  2.019d0,
+     +            -0.333d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+*
+* This set of biases was determined by Stefan Schaer (AIUB) as a byproduct
+* of his ionosphere monitoring; see above.  These values are the monthly
+* averages of the daily estimates for January 2004 (generated 04 Feb 2004).
+* Note that since the last update the constellation has changed with the
+* decommissioning of the old PRN22 on 06 Aug 2003 and its replacement by
+* the new IIR-10 satellite launched on 21 Dec 2003.  Besides the large
+* bias change for PRN22, PRN07 and PRN23 are the only others having bias
+* changes greater than 0.3 ns.
+*----------------------------------------------------------------------------
+* For data collected starting 16 May 2004 -- IGS Mail #4937 (10 May 2004)
+* (cc2noncc.f version 4.6, 10 May 2004)
+*
+ h 2004 05 16
+      data bias / -0.076d0, -9.999d9,  0.014d0,  1.473d0, -0.872d0,
+     +             0.565d0, -0.809d0, -0.563d0,  0.327d0, -1.579d0,
+     +             0.609d0, -9.999d9,  1.600d0,  0.311d0, -1.040d0,
+     +            -0.460d0, -0.915d0,  0.014d0, -2.410d0, -1.084d0,
+     +            -0.298d0,  0.652d0, -9.999d9,  0.258d0,  0.552d0,
+     +             1.247d0, -0.020d0, -0.162d0,  0.949d0,  2.082d0,
+     +            -0.366d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+*
+* This set of biases was determined by Stefan Schaer (AIUB) as a byproduct
+* of his ionosphere monitoring; see above.  These values are the monthly
+* averages of the daily estimates for April 2004 (generated 04 May 2004).
+* Note that since the last update the constellation has changed with the
+* decommissioning of the old PRN23 on 13 Feb 2004, the end of life of
+* PRN02 on 23 Feb 2004 (though not officially decommissioned yet), and
+* the new IIR-11 satellite (PRN19) launched on 20 Mar 2004.  Besides the
+* bias changes for PRN02, PRN19, and PRN23, the only other having a bias
+* change greater than 0.2 ns was PRN22, which became operational in late
+* Dec 2003.
+*----------------------------------------------------------------------------
+* For data collected starting 15 Aug 2004 -- IGS Mail #4987 (04 Aug 2004)
+* (cc2noncc.f version 4.7, 04 Aug 2004)
+*
+ h 2004 08 15
+      data bias / -0.053d0, -9.999d9, -0.011d0,  1.450d0, -0.944d0,
+     +             0.538d0, -1.228d0, -0.243d0,  0.401d0, -1.582d0,
+     +             0.553d0, -9.999d9,  1.621d0,  0.441d0, -0.948d0,
+     +            -0.410d0, -0.835d0,  0.063d0, -2.323d0, -1.074d0,
+     +            -0.345d0,  0.605d0, -0.225d0,  0.289d0,  0.570d0,
+     +             1.277d0,  0.001d0, -0.204d0,  0.969d0,  2.095d0,
+     +            -0.449d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+*
+* This set of biases was determined by Stefan Schaer (AIUB) as a byproduct
+* of his ionosphere monitoring; see above.  These values are the monthly
+* averages of the daily estimates for July 2004 (generated 04 Aug 2004).
+* Note that since the last update the constellation has changed with the
+* launch of a new IIR-12 satellite (SVN60/PRN23) on 23 Jun 2004.  Besides
+* the bias change for PRN23, the only others changing by more than 0.2 ns
+* were PRN07 (-0.42 ns) and PRN08 (+0.32 ns).
+*----------------------------------------------------------------------------
+* For data collected starting 16 Jan 2005 -- IGS Mail #5078 (04 Jan 2005)
+* (cc2noncc.f version 4.8, 04 Jan 2005)
+ h 2005 01 16
+      data bias / -0.028d0, -0.061d0,  0.077d0,  1.334d0, -0.929d0,
+     +             0.664d0, -0.912d0, -0.335d0,  0.529d0, -1.567d0,
+     +             0.535d0, -9.999d9,  1.541d0,  0.335d0, -1.057d0,
+     +            -0.419d0, -0.906d0,  0.098d0, -2.269d0, -1.105d0,
+     +            -0.346d0,  0.579d0, -0.221d0,  0.152d0,  0.735d0,
+     +             1.247d0, -0.018d0, -0.205d0,  0.842d0,  2.017d0,
+     +            -0.307d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+* This set of biases was determined by Stefan Schaer (AIUB) as a byproduct
+* of his ionosphere monitoring; see above.  These values are the monthly
+* averages of the daily estimates for December 2004 (generated 04 Jan 2005).
+* Note that since the last update the constellation has changed with the
+* launch of a new IIR-13 satellite (SVN61/PRN02) on 06 Nov 2004.  Besides
+* the new bias for PRN02, which is close to zero, the only other having a
+* bias change greater than 0.2 ns is PRN07 (+0.32ns), which has historically
+* been unstable.
+*----------------------------------------------------------------------------
+* For data collected starting 03 Oct 2005 -- IGS Mail #5260 (23 Nov 2005)
+* (cc2noncc.f version 5.0, 23 Nov 2005)
+ h 2005 10 03
+      data bias / -0.233d0, -0.033d0, -0.163d0,  1.234d0, -0.944d0,
+     +             0.444d0, -1.132d0, -0.416d0,  0.366d0, -1.651d0,
+     +             0.591d0, -9.999d9,  1.529d0,  0.108d0, -1.326d0,
+     +            -0.525d0,  1.391d0, -0.012d0, -2.026d0, -1.228d0,
+     +            -0.392d0,  0.532d0,  0.130d0, -0.069d0,  0.575d0,
+     +             1.083d0, -0.189d0, -0.232d0,  0.643d0,  2.016d0,
+     +            -0.073d0, -9.999d9, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+* This set of biases was determined by Stefan Schaer (AIUB) as a byproduct
+* of his ionosphere monitoring; see above.  These values are the 30-day 
+* averages of the daily estimates ending on 19 Nov 2005.  Note that since
+* the last update in Jan 2005 the constellation has changed with the launch
+* of the new IIR-M1 satellite (SVN53/PRN17) on 26 Sep 2005 and the
+* decommissioning of SVN31/PRN31 on 25 Oct 2005.  Besides the new bias for
+* PRN17 the only other having a bias change greater than 0.3 ns is PRN23
+* (+0.35ns).
+*----------------------------------------------------------------------------
+* For data collected starting 01 Oct 2007 -- IGS Mail #5662 (22 Nov 2007)
+* CODE'S MONTHLY GPS P1-C1 DCB SOLUTION, YEAR-MONTH 07-10               
+* ftp://ftp.unibe.ch/aiub/CODE/2007/P1C10710.DCB.Z
+* ftp://ftp.unibe.ch/aiub/CODE/2007/P1C10710.F.Z
+ h 2007 10 01
+      data bias / -0.532d0, -0.076d0, -0.580d0,  1.059d0, -1.319d0,
+     +             0.132d0, -1.664d0, -0.627d0,  0.034d0, -1.950d0,
+     +             0.508d0,  1.391d0,  1.389d0,  0.013d0,  1.792d0,
+     +            -0.818d0,  1.251d0, -0.472d0, -2.090d0, -1.430d0,
+     +            -0.527d0,  0.514d0,  0.648d0, -0.337d0,  0.355d0,
+     +             0.870d0, -0.496d0, -0.388d0,  0.348d0,  1.815d0,
+     +             1.629d0, -0.443d0, -9.999d9, -9.999d9, -9.999d9,
+     +            -9.999d9, -9.999d9, -9.999d9, -9.999d9, -9.999d9  /
+* This set of biases was determined at CODE (AIUB) as a by-product of the
+* GNSS ionosphere/clock analysis; see above. These values are the monthly
+* averages of the daily estimates for October 2007 (generated 04 Nov 2007).
+* Note that since the last update the constellation has changed with:
+* - PRN12/SVN58 launched on 11 Nov 2006
+* - PRN15/SVN55 launched on 17 Oct 2007 (as replacement for PRN15/SVN15)
+* - PRN31/SVN52 launched on 25 Sep 2006 (as replacement for PRN31/SVN31)
+* - PRN32/SVN23 re-activated on 02 Dec 2006 (originally assigned to PRN23)
+* Besides the resulting bias changes for PRN12 (+1.39 ns), PRN15 (+3.12 ns),
+* PRN31 (+1.70 ns), PRN32 (-0.44 ns), PRN03 and PRN23 are the only others
+* having bias changes greater than 0.5 ns (with -0.53 ns and +0.52 ns).
+*----------------------------------------------------------------------------
+-cc2noncc/corr
+
